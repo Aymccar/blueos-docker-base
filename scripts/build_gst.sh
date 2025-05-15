@@ -166,7 +166,7 @@ GST_BUILD_LIBS_DEFAULT=(
     libsoup2.4-dev
     libsrtp2-dev
     libssl-dev
-    libsysprof-4-dev
+    libsysprof-6-dev
     libv4l-dev
     libva-dev
     libvorbis-dev
@@ -227,7 +227,7 @@ EOF
 apt-get update
 apt-get install --assume-yes --no-install-recommends --mark-auto \
     "${GST_BUILD_TOOLS[@]}" "${GST_BUILD_LIBS[@]}"
-python3 -m pip install --no-cache-dir "${GST_PIP_DEPENDENCIES[@]}"
+python3 -m pip install --no-cache-dir "${GST_PIP_DEPENDENCIES[@]}" --break-system-packages
 
 # Download and install IL headers if needed:
 if [ -n "$USERLAND_PATH" ]; then

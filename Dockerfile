@@ -8,12 +8,14 @@ ARG GST_OMX_ENABLED=false
 
 
 # Stage 1: Base Image
-FROM python:3.11.7-slim-bookworm AS base
+FROM ubuntu:24.04 AS base
+
+RUN apt update && apt install python3 python-is-python3 pip -y
 
 RUN <<-EOF
 set -e
     # Add backports
-    echo "deb http://deb.debian.org/debian bookworm-backports main contrib non-free" >> "/etc/apt/sources.list"
+    echo "deb http://archive.ubuntu.com/ubuntu noble-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
 
     # Setup cache
     rm -f /etc/apt/apt.conf.d/docker-clean
@@ -64,15 +66,15 @@ EOF
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     # Install necessary tools and libs for basic use
-        apt-get update \
-        && apt-get install --assume-yes --no-install-recommends \
+        apt update \
+        && apt install --assume-yes --no-install-recommends \
         # TOOLS:
             bat \
             bzip2 \
             curl \
             dnsmasq \
             dnsutils \
-            exa \
+            eza \
             file \
             gdbserver \
             gettext \
@@ -110,10 +112,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         # LIBS:
             libatm1 \
             libatomic1 \
-            libavcodec59 \
-            libavfilter8 \
-            libavformat59 \
-            libavutil57 \
+            libavcodec60 \
+            libavfilter9 \
+            libavformat60 \
+            libavutil58 \
             libde265-0 \
             libdrm2 \
             libdv4 \
@@ -134,7 +136,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
             libva-wayland2 \
             libva-x11-2 \
             libva2 \
-            libvpx7 \
+            libvpx9 \
             libyaml-0-2 \
             libx264-164 \
             libx265-199 \
